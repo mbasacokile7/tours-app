@@ -28,6 +28,20 @@ const App = () => {
     setIsLoading(false);
   }
 
+  const fetchTours = async () => {
+    // will use later
+    setIsLoading(true);
+    try {
+      const response = await fetch(url);
+      const tours = await response.json();
+      setIsLoading(false);
+      setTours(tours);
+    } catch (error) {
+      setIsLoading(false);
+      console.log(error);
+    }
+  };
+
   // useEffect to fetch data on initial load
   useEffect(() => {
     getData();
@@ -38,6 +52,19 @@ const App = () => {
     return (
       <main>
         <Loading />
+      </main>
+    );
+  }
+
+  if (tours.length === 0) {
+    return (
+      <main>
+        <div className="title">
+          <h2>no tours left</h2>
+          <button className="btn" onClick={() => fetchTours()}>
+            refresh
+          </button>
+        </div>
       </main>
     );
   }
