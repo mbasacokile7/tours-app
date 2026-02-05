@@ -1,39 +1,123 @@
-## Figma URL
+# Tours App
 
-[Tours](https://www.figma.com/file/OnLoM3AzBFaHzSc2iolJS0/Tours?node-id=0%3A1&t=wiRXOlTLN5ehekYI-1)
+A React application that demonstrates core React concepts including **state management**, **side effects**, and **conditional rendering** while fetching and displaying tour data.
 
-## Steps
+![Tours UI Screenshot](Tours-UI-Screenshot.png)
 
-#### Setup
+## Project Overview
 
-First create - three components (Tours, Tour, and Loading), you can create three separate files in your project directory: Tours.jsx, Tour.jsx, and Loading.jsx. In each of these files, you will define a React functional component that returns JSX code for rendering the respective component.
+This project is a practical learning exercise that applies fundamental React hooks and patterns to build an interactive tours listing application. Users can browse tours, expand descriptions, remove tours from the list, and refetch the entire dataset.
 
-#### Fetch Tours
+## Key Learning Concepts
 
-The Tours component will be responsible for rendering a list of Tour components. In App.jsx, you will fetch the tours data from a URL using the fetch API. Before the data is loaded, you should show a loading spinner or message, which can be implemented using the Loading component.
+### 1. **useState Hook** - State Management
 
-#### Render Tours
+- **`isLoading`**: Tracks the loading state while fetching data from the API
+- **`tours`**: Manages the array of tour objects displayed in the UI
+- **`readMore`**: Toggles the expanded/collapsed state of tour descriptions within individual Tour components
 
-Once the data is loaded, you can set the state of your component to store the tours data. You can then map over the tours array and render a Tour component for each tour. Each Tour component will receive the tour data as props, including the tour's id, image, info, name, and price.
+### 2. **useEffect Hook** - Side Effects
 
-#### Remove Tour
+- Automatically fetches tour data when the App component mounts
+- Dependency array is empty (`[]`), ensuring the effect runs only once on initial load
+- Handles asynchronous data fetching without blocking the UI
 
-To implement the "remove tour" functionality, you can add a button to each Tour component that, when clicked, removes the tour from the list of tours. You can achieve this by updating the state of the Tours component to remove the tour from the tours array.
+### 3. **Conditional Rendering** - UI Logic
 
-#### Read More
+- **Loading State**: Displays a Loading component while data is being fetched
+- **Empty State**: Shows a message and refresh button when all tours are removed
+- **Content State**: Renders the Tours component with full tour data
+- **Read More Toggle**: Shows truncated text (200 characters) by default, full text when expanded
 
-To implement the "read more" functionality, you can add a button to each Tour component that, when clicked, expands the description of the tour. You can achieve this by updating the state of the Tour component to toggle a "read more" flag, and conditionally rendering the full description based on the flag.
+## Features
 
-#### Re-fetch Tours
+### Data Fetching
 
-Finally, you can implement a "re-fetch" functionality by adding a button or other user interface element that, when clicked, re-fetches the tours data from the URL and updates the state of the Tours component. You may also want to add a loading state again during the re-fetching process.
+- Fetches tour data from the [Course API](https://www.course-api.com/react-tours-project)
+- Uses the native Fetch API for HTTP requests
+- Error handling with try-catch blocks
 
-Overall, the flow of the application should look something like this:
+### Tour Display
 
-- App.jsx fetches tours data from a URL and sets the state of the Tours component to store the data.
-- The Tours component maps over the tours array and renders a Tour component for each tour.
-- Each Tour component has a "remove tour" button and a "read more" button.When the "remove tour" button is clicked, the Tours component updates its state to remove the tour from the tours array.
+- Maps over the tours array and renders individual Tour components
+- Each tour displays an image, name, price, and description
+- Props are passed down to child components for flexible, reusable design
 
-- When the "read more" button is clicked, the Tour component updates its state to toggle a "read more" flag and conditionally renders the full description.
+### Remove Tour
 
-- When the "re-fetch" button is clicked, the Tours component re-fetches the tours data from the URL and updates its state.
+- "Not Interested" button removes a tour from the list
+- Updates the parent Tours component state using the `removeTour` callback
+- Filtered array is stored back in state
+
+### Read More/Show Less
+
+- Toggles between showing abbreviated (200 chars) and full descriptions
+- Uses `useState` in the Tour component to manage individual tour state
+- Conditional rendering determines which button text and content to display
+
+### Refresh Functionality
+
+- "Refresh" button re-fetches all tours from the API
+- Sets loading state during the refresh process
+- Restores the full dataset
+
+## Component Structure
+
+```
+App.jsx
+├── Loading.jsx
+└── Tours.jsx
+    └── Tour.jsx (multiple instances)
+```
+
+### **App.jsx** (Main Component)
+
+- Manages global state: `isLoading` and `tours`
+- Handles all data fetching logic
+- Implements conditional rendering for different UI states
+- Provides callbacks to child components
+
+### **Tours.jsx**
+
+- Receives tours array and removeTour callback as props
+- Maps over tours and renders Tour components
+- Displays the "Our Tours" section title
+
+### **Tour.jsx** (Individual Tour)
+
+- Receives tour data and removeTour callback as props
+- Manages its own `readMore` state for description expansion
+- Renders tour card with image, price, name, and description
+- Two action buttons: "read more"/"Show Less" and "Not Interested"
+
+### **Loading.jsx**
+
+- Simple, reusable loading indicator component
+- Displays while data is being fetched
+
+## Technologies Used
+
+- **React** - UI library
+- **Vite** - Build tool and dev server
+- **JavaScript ES6+** - Modern JavaScript features
+- **Fetch API** - Data fetching
+
+## Getting Started
+
+1. Install dependencies:
+
+   ```bash
+   npm install
+   ```
+
+2. Start the development server:
+
+   ```bash
+   npm run dev
+   ```
+
+3. Open the application in your browser at the URL provided by Vite
+
+## Design Reference
+
+[View Figma Design](https://www.figma.com/file/OnLoM3AzBFaHzSc2iolJS0/Tours?node-id=0%3A1&t=wiRXOlTLN5ehekYI-1)
